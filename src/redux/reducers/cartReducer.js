@@ -3,7 +3,19 @@ const initState = {
 };
 
 const cartReducer = (state = initState, action) => {
-  return state;
+  console.log(action);
+  switch (action.type) {
+    case "CHANGE_ID":
+      console.log(action, "payload");
+      return {
+        selectedId: action.selectedId,
+      };
+
+    // you can have as many case statements as you need
+
+    default:
+      return state;
+  }
 };
 
 export default cartReducer;

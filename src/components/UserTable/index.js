@@ -2,7 +2,7 @@ import styles from "./UserTable.module.css";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
 import { useEffect, useState } from "react";
-
+import { useDispatch } from "react-redux";
 const rows = [
   { id: 1, col1: "Hello", col2: "World" },
   { id: 2, col1: "DataGridPro", col2: "is Awesome" },
@@ -19,6 +19,7 @@ const columns = [
 export default function UserTable() {
   const [userData, setuserData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
   const [selectionModel, setSelectionModel] = useState({});
   console.log(selectionModel);
   useEffect(async () => {
@@ -37,6 +38,13 @@ export default function UserTable() {
     setuserData(finalRes);
     setLoading(false);
   }, []);
+
+  function changeUser(userId) {
+    dispatch({
+      type: "CHANGE_ID",
+      selectedId: userId,
+    });
+  }
   return (
     <div className={styles.UserTable}>
       {!loading && (
@@ -44,7 +52,7 @@ export default function UserTable() {
           rows={userData}
           columns={columns}
           onSelectionModelChange={(newSelectionModel) => {
-            setSelectionModel(newSelectionModel);
+            changeUser(newSelectionModel[0]);
           }}
         />
       )}
