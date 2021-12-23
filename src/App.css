@@ -19,8 +19,18 @@ html,
   height: 100%;
   width: 100%;
 }
-
+.App {
+  height: 100%;
+  width: 100%;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+.grid {
+  display: grid;
+  height: 100%;
+  width: 100%;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
 }
