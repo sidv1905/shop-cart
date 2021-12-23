@@ -3,6 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
 
 const rows = [
@@ -23,12 +24,15 @@ export default function CartTable() {
   const [cartData, setCartData] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const dispatch = useDispatch();
+
   console.log(idofUser, "idofUser");
 
   useEffect(async () => {
     setLoading(true);
     console.log(idofUser);
     let allProductData = [];
+    let productsOfUser = [];
     const resCart = await axios.get(
       `https://fakestoreapi.com/carts/user/${idofUser}`
     );
@@ -40,7 +44,7 @@ export default function CartTable() {
         const getProductDetail = await axios.get(
           `https://fakestoreapi.com/products/${resCart.data[j].products[i].productId}`
         );
-
+        productsOfUser.push(getProductDetail.data);
         console.log(getProductDetail.data, "PRODUCT INFO");
         allProductData.push({
           id: Math.random(),
@@ -53,10 +57,20 @@ export default function CartTable() {
       }
     }
 
-    console.log(allProductData, "allproduct data");
+    console.log(productsOfUser, "allproduct data");
+
     setLoading(false);
     setCartData(allProductData);
+
+    setProductsDataOfUser(productsOfUser);
   }, [idofUser]);
+
+  function setProductsDataOfUser(data) {
+    dispatch({
+      type: "ALL_PRODUCTS",
+      data: data,
+    });
+  }
   return (
     <div className={styles.cartable}>
       {loading && <CircularProgress color="secondary" />}
