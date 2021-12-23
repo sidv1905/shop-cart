@@ -1,5 +1,7 @@
 import styles from "./UserTable.module.css";
 import { DataGrid } from "@mui/x-data-grid";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const rows = [
   { id: 1, col1: "Hello", col2: "World" },
@@ -8,14 +10,44 @@ const rows = [
 ];
 
 const columns = [
-  { field: "col1", headerName: "Column 1", width: 150 },
-  { field: "col2", headerName: "Column 2", width: 150 },
+  { field: "col1", headerName: "Name", width: 150 },
+  { field: "col2", headerName: "Email ID", width: 150 },
+  { field: "col3", headerName: "Address", width: 150 },
+  { field: "col4", headerName: "Phone", width: 150 },
 ];
 
 export default function UserTable() {
+  const [userData, setuserData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectionModel, setSelectionModel] = useState({});
+  console.log(selectionModel);
+  useEffect(async () => {
+    setLoading(true);
+    const res = await axios.get("https://fakestoreapi.com/users");
+    let finalRes = res.data.map((item, index) => {
+      return {
+        id: index + 1,
+        col1: `${item.name.firstname} ${item.name.lastname}`,
+        col2: item.email,
+        col3: `${item.address.street},${item.address.city}`,
+        col4: item.phone,
+      };
+    });
+
+    setuserData(finalRes);
+    setLoading(false);
+  }, []);
   return (
     <div className={styles.UserTable}>
-      <DataGrid rows={rows} columns={columns} />
+      {!loading && (
+        <DataGrid
+          rows={userData}
+          columns={columns}
+          onSelectionModelChange={(newSelectionModel) => {
+            setSelectionModel(newSelectionModel);
+          }}
+        />
+      )}
     </div>
   );
 }
