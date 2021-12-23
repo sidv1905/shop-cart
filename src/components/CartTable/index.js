@@ -23,7 +23,6 @@ export default function CartTable() {
   const idofUser = useSelector((state) => state.cartReducer.selectedId);
   const [cartData, setCartData] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const dispatch = useDispatch();
 
   console.log(idofUser, "idofUser");
@@ -58,11 +57,9 @@ export default function CartTable() {
     }
 
     console.log(productsOfUser, "allproduct data");
-
+    setProductsDataOfUser(productsOfUser);
     setLoading(false);
     setCartData(allProductData);
-
-    setProductsDataOfUser(productsOfUser);
   }, [idofUser]);
 
   function setProductsDataOfUser(data) {

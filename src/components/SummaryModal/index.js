@@ -57,7 +57,7 @@ export default function SummaryModal() {
     setOpen(false);
   }
   return (
-    <div>
+    <div className="modal-cart">
       <Button variant="contained" onClick={handleOpen}>
         Summary
       </Button>
@@ -75,6 +75,11 @@ export default function SummaryModal() {
             <Typography sx={{ mt: 2 }} variant="h6">
               1. Product with Max Price :
             </Typography>
+            <img
+              src={allDetails.maxPriceProduct.image}
+              height="100"
+              width="150"
+            />
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               {allDetails.maxPriceProduct.title}
             </Typography>
