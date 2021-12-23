@@ -3,6 +3,8 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import CircularProgress from "@mui/material/CircularProgress";
+
 const rows = [
   { id: 1, col1: "Hello", col2: "World" },
   { id: 2, col1: "DataGridPro", col2: "is Awesome" },
@@ -11,9 +13,10 @@ const rows = [
 
 const columns = [
   { field: "col1", headerName: "Product ID", width: 150 },
-  { field: "col2", headerName: "Date", width: 150 },
-  { field: "col3", headerName: "Amount of Items", width: 150 },
-  { field: "col4", headerName: "Total Price", width: 150 },
+  { field: "col2", headerName: "Product Name", width: 150 },
+  { field: "col3", headerName: "Date", width: 150 },
+  { field: "col4", headerName: "Amount of Items", width: 150 },
+  { field: "col5", headerName: "Total Price", width: 150 },
 ];
 export default function CartTable() {
   const idofUser = useSelector((state) => state.cartReducer.selectedId);
@@ -40,11 +43,12 @@ export default function CartTable() {
 
         console.log(getProductDetail.data, "PRODUCT INFO");
         allProductData.push({
-          id: resCart.data[j].id,
+          id: Math.random(),
           col1: resCart.data[j].products[i].productId,
-          col2: resCart.data[j].date,
-          col3: resCart.data[j].products[i].quantity,
-          col4: getProductDetail.data.price,
+          col2: getProductDetail.data.title,
+          col3: resCart.data[j].date,
+          col4: resCart.data[j].products[i].quantity,
+          col5: getProductDetail.data.price,
         });
       }
     }
@@ -55,6 +59,7 @@ export default function CartTable() {
   }, [idofUser]);
   return (
     <div className={styles.cartable}>
+      {loading && <CircularProgress color="secondary" />}
       {!loading && <DataGrid rows={cartData} columns={columns} />}
     </div>
   );

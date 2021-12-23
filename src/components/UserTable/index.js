@@ -3,6 +3,8 @@ import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import CircularProgress from "@mui/material/CircularProgress";
+
 const rows = [
   { id: 1, col1: "Hello", col2: "World" },
   { id: 2, col1: "DataGridPro", col2: "is Awesome" },
@@ -47,6 +49,8 @@ export default function UserTable() {
   }
   return (
     <div className={styles.UserTable}>
+      {loading && <CircularProgress color="secondary" />}
+
       {!loading && (
         <DataGrid
           rows={userData}
